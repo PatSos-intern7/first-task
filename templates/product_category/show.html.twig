@@ -27,6 +27,42 @@
                 <th>DateOfModification</th>
                 <td>{{ product_category.dateOfModification ? product_category.dateOfModification|date('Y-m-d') : '' }}</td>
             </tr>
+
+
+            </tr>
+
+        </tbody>
+    </table>
+    <h2> Products with category {{ product_category.name }}</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>DateOfCreation</th>
+            <th>DateOfLastModification</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in product_category.products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.dateOfCreation ? product.dateOfCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ product.dateOfLastModification ? product.dateOfLastModification|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
+                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 
