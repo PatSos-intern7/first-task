@@ -38,7 +38,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ProductCategory", inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name ="category_id", referencedColumnName="id", onDelete = "CASCADE", nullable=false)
      */
     private $category;
 
