@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Entity\ProductCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ProductType extends AbstractType
 {
@@ -14,6 +16,9 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('category', EntityType::class,[
+                        'class'=>ProductCategory::class,
+                        'choice_label'=>'name'])
             ->add('dateOfCreation')
             ->add('dateOfLastModification')
         ;
