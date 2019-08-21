@@ -38,6 +38,7 @@ class ProductCategoryController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($productCategory);
             $entityManager->flush();
+            $this->addFlash('notice','created category with ID: '.$productCategory->getId());
 
             return $this->redirectToRoute('product_category_index');
         }
@@ -84,9 +85,11 @@ class ProductCategoryController extends AbstractController
     public function delete(Request $request, ProductCategory $productCategory): Response
     {
         if ($this->isCsrfTokenValid('delete'.$productCategory->getId(), $request->request->get('_token'))) {
+            $categoryId = $productCategory->getId();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($productCategory);
             $entityManager->flush();
+            $this->addFlash('notice','Deleted category with ID:'.$categoryId);
         }
 
         return $this->redirectToRoute('product_category_index');
