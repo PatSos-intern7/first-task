@@ -38,6 +38,7 @@ class ProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
             $entityManager->flush();
+            $this->addFlash('notice','created product ID: '.$product->getId());
 
             return $this->redirectToRoute('product_index');
         }
