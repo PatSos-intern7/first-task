@@ -36,6 +36,12 @@ class Product
      */
     private $dateOfLastModification;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductCategory", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +91,18 @@ class Product
     public function setDateOfLastModification(\DateTimeInterface $dateOfLastModification): self
     {
         $this->dateOfLastModification = $dateOfLastModification;
+
+        return $this;
+    }
+
+    public function getCategory(): ?ProductCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?ProductCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
