@@ -19,8 +19,6 @@ class ProductType extends AbstractType
             ->add('category', EntityType::class,[
                         'class'=>ProductCategory::class,
                         'choice_label'=>'name'])
-            ->add('dateOfCreation')
-            ->add('dateOfLastModification')
         ;
     }
 
