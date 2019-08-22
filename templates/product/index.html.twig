@@ -25,8 +25,8 @@
                 <td>{{ product.dateOfCreation ? product.dateOfCreation|date('Y-m-d') : '' }}</td>
                 <td>{{ product.dateOfLastModification ? product.dateOfLastModification|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+                    <a class="btn btn-primary" role="button" href="{{ path('product_show', {'id': product.id}) }}">show</a>
+                    <a class="btn btn-primary" role="button" href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
                     {% include 'product/_delete_form.html.twig' %}
 
                 </td>
@@ -39,6 +39,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('product_new') }}">Create new</a>
-    <a href="{{ path('product_category_index')}}">Category list</a>
+    <a class="btn btn-primary" role="button" href="{{ path('product_new') }}">Create new</a>
+    <a class="btn btn-primary" role="button" href="{{ path('product_category_index')}}">Category list</a>
 {% endblock %}
