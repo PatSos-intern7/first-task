@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductCategoryRepository")
@@ -29,11 +30,13 @@ class ProductCategory
     private $description;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="date")
      */
     private $dateOfCreation;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="date")
      */
     private $dateOfModification;
