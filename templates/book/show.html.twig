@@ -21,11 +21,19 @@
             </tr>
             <tr>
                 <th>Author</th>
-                <td>{{ book.author }}</td>
+                <td>{{ book.author.name }}</td>
             </tr>
             <tr>
                 <th>Publish</th>
-                <td>{{ book.Publish ? book.Publish|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ book.Publish ? book.Publish|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ book.entryDate ? book.entryDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Last edit</th>
+                <td>{{ book.lastModyfication ? book.lastModyfication|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Country</th>
@@ -33,7 +41,7 @@
             </tr>
             <tr>
                 <th>Availability</th>
-                <td>{{ book.availability ? 'Yes' : 'No' }}</td>
+                <td>{{ book.availability ? 'Dostępna' : 'Wypożyczona' }}</td>
             </tr>
         </tbody>
     </table>
