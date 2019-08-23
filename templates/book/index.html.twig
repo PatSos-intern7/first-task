@@ -24,7 +24,7 @@
                 <td>{{ book.id }}</td>
                 <td>{{ book.title }}</td>
                 <td>{{ book.description }}</td>
-                <td>{{ book.author }}</td>
+                <td>{{ book.author.name }} {{ book.author.surname }}</td>
                 <td>{{ book.Publish ? book.Publish|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ book.country }}</td>
                 <td>{{ book.availability ? 'Yes' : 'No' }}</td>
