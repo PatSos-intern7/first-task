@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookGenreRepository")
@@ -37,6 +38,16 @@ class BookGenre
      * @ORM\OneToMany(targetEntity="App\Entity\Book", mappedBy="genre")
      */
     private $books;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $entryDate;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $lastModyfication;
 
     public function __construct()
     {
@@ -111,6 +122,30 @@ class BookGenre
                 $book->setGenre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEntryDate(): ?\DateTimeInterface
+    {
+        return $this->entryDate;
+    }
+
+    public function setEntryDate(\DateTimeInterface $entryDate): self
+    {
+        $this->entryDate = $entryDate;
+
+        return $this;
+    }
+
+    public function getLastModyfication(): ?\DateTimeInterface
+    {
+        return $this->lastModyfication;
+    }
+
+    public function setLastModyfication(\DateTimeInterface $lastModyfication): self
+    {
+        $this->lastModyfication = $lastModyfication;
 
         return $this;
     }

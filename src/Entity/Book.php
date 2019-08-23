@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
@@ -52,11 +53,13 @@ class Book
     private $genre;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="date")
      */
     private $entryDate;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="date")
      */
     private $lastModyfication;

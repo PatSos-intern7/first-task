@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AuthorRepository")
@@ -40,6 +41,18 @@ class Author
      * @ORM\Column(type="date", nullable=true)
      */
     private $yearOfDead;
+
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="date")
+     */
+    private $entryDate;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="date")
+     */
+    private $lastModyfication;
 
     public function getId(): ?int
     {
@@ -102,6 +115,30 @@ class Author
     public function setYearOfDead(?\DateTimeInterface $yearOfDead): self
     {
         $this->yearOfDead = $yearOfDead;
+
+        return $this;
+    }
+
+    public function getEntryDate(): ?\DateTimeInterface
+    {
+        return $this->entryDate;
+    }
+
+    public function setEntryDate(\DateTimeInterface $entryDate): self
+    {
+        $this->entryDate = $entryDate;
+
+        return $this;
+    }
+
+    public function getLastModyfication(): ?\DateTimeInterface
+    {
+        return $this->lastModyfication;
+    }
+
+    public function setLastModyfication(\DateTimeInterface $lastModyfication): self
+    {
+        $this->lastModyfication = $lastModyfication;
 
         return $this;
     }
