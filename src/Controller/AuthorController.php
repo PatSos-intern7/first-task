@@ -38,6 +38,7 @@ class AuthorController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($author);
             $entityManager->flush();
+            $this->addFlash('library',$this->getFleshContent($author, 'Created'));
 
             return $this->redirectToRoute('author_index');
         }
@@ -68,6 +69,7 @@ class AuthorController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('library',$this->getFleshContent($author, 'Edited'));
 
             return $this->redirectToRoute('author_index');
         }
@@ -87,8 +89,14 @@ class AuthorController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($author);
             $entityManager->flush();
+            $this->addFlash('library',$this->getFleshContent($author, 'Deleted'));
         }
 
         return $this->redirectToRoute('author_index');
+    }
+
+    public function getFleshContent(Author $entity, string $status):string
+    {
+        return $status.' author: '.$entity->getName().' '.$entity->getSurname();
     }
 }
