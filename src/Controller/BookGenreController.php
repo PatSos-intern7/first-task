@@ -36,6 +36,7 @@ class BookGenreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $bookGenre->setEditCount(0);
             $entityManager->persist($bookGenre);
             $entityManager->flush();
 
@@ -67,6 +68,7 @@ class BookGenreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $bookGenre->setEditCount($bookGenre->getEditCount()+1);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('book_genre_index');
@@ -77,6 +79,7 @@ class BookGenreController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     /**
      * @Route("/{id}", name="book_genre_delete", methods={"DELETE"})

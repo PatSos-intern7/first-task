@@ -15,7 +15,6 @@ class BookGenreType extends AbstractType
         $builder
             ->add('name')
             ->add('description',TextareaType::class)
-            ->add('edit_count')
         ;
     }
 
