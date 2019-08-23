@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Author;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,7 @@ class AuthorType extends AbstractType
         $builder
             ->add('name')
             ->add('surname')
-            ->add('countryOfOrigin')
+            ->add('countryOfOrigin', CountryType::class)
             ->add('yearOfBirth')
             ->add('yearOfDead')
         ;
