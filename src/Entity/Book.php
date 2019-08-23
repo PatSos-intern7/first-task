@@ -28,12 +28,7 @@ class Book
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author;
-
-    /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="integer")
      */
     private $Publish;
 
@@ -89,18 +84,6 @@ class Book
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
 
         return $this;
     }
