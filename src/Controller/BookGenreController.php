@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/book/genre")
+ * @Route("/library/genre")
  */
 class BookGenreController extends AbstractController
 {
