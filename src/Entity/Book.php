@@ -44,6 +44,7 @@ class Book
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BookGenre", inversedBy="books")
+     * @ORM\JoinColumn(name ="genre_id", referencedColumnName="id", onDelete = "CASCADE", nullable=false)
      */
     private $genre;
 
@@ -61,7 +62,7 @@ class Book
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Author", inversedBy="books")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name ="author_id", referencedColumnName="id", onDelete = "CASCADE", nullable=false)
      */
     private $author;
 
