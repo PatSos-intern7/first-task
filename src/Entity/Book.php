@@ -46,6 +46,21 @@ class Book
      */
     private $availability;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BookGenre", inversedBy="books")
+     */
+    private $genre;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $entryDate;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $lastModyfication;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,6 +134,42 @@ class Book
     public function setAvailability(bool $availability): self
     {
         $this->availability = $availability;
+
+        return $this;
+    }
+
+    public function getGenre(): ?BookGenre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?BookGenre $genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getEntryDate(): ?\DateTimeInterface
+    {
+        return $this->entryDate;
+    }
+
+    public function setEntryDate(\DateTimeInterface $entryDate): self
+    {
+        $this->entryDate = $entryDate;
+
+        return $this;
+    }
+
+    public function getLastModyfication(): ?\DateTimeInterface
+    {
+        return $this->lastModyfication;
+    }
+
+    public function setLastModyfication(\DateTimeInterface $lastModyfication): self
+    {
+        $this->lastModyfication = $lastModyfication;
 
         return $this;
     }
