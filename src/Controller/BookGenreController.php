@@ -39,7 +39,7 @@ class BookGenreController extends AbstractController
             $bookGenre->setEditCount(0);
             $entityManager->persist($bookGenre);
             $entityManager->flush();
-            $this->addFlash('library',$this->getFleshContent($bookGenre,'Created'));
+            $this->addFlash('library',$this->getFlashContent($bookGenre,'Created'));
 
             return $this->redirectToRoute('book_genre_index');
         }
@@ -71,7 +71,7 @@ class BookGenreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $bookGenre->setEditCount($bookGenre->getEditCount()+1);
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('library',$this->getFleshContent($bookGenre,'Edited'));
+            $this->addFlash('library',$this->getFlashContent($bookGenre,'Edited'));
 
             return $this->redirectToRoute('book_genre_index');
         }
@@ -92,13 +92,13 @@ class BookGenreController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($bookGenre);
             $entityManager->flush();
-            $this->addFlash('library',$this->getFleshContent($bookGenre,'Deleted'));
+            $this->addFlash('library',$this->getFlashContent($bookGenre,'Deleted'));
         }
 
         return $this->redirectToRoute('book_genre_index');
     }
 
-    public function getFleshContent(BookGenre $entity, string $status):string
+    public function getFlashContent(BookGenre $entity, string $status):string
     {
         return $status.' genre: '.$entity->getName();
     }
