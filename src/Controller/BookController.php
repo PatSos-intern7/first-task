@@ -38,6 +38,7 @@ class BookController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
+            $this->addFlash('library',$this->getFleshContent($book, 'Created'));
 
             return $this->redirectToRoute('book_index');
         }
@@ -68,6 +69,7 @@ class BookController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('library',$this->getFleshContent($book, 'Edited'));
 
             return $this->redirectToRoute('book_index');
         }
@@ -87,8 +89,15 @@ class BookController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($book);
             $entityManager->flush();
+            $this->addFlash('library',$this->getFleshContent($book, 'Deleted'));
         }
 
         return $this->redirectToRoute('book_index');
+    }
+
+    public function getFleshContent(Book $book, string $status):string
+    {
+        return $status.' book with title:'.$book->getTitle()
+            .' and author: '.$book->getAuthor()->getName().' '.$book->getAuthor()->getSurname();
     }
 }
