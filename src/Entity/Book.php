@@ -94,12 +94,12 @@ class Book
         return $this;
     }
 
-    public function getPublish(): ?\DateTimeInterface
+    public function getPublish(): ?int
     {
         return $this->Publish;
     }
 
-    public function setPublish(\DateTimeInterface $Publish): self
+    public function setPublish(int $Publish): self
     {
         $this->Publish = $Publish;
 

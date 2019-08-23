@@ -40,11 +40,13 @@ class BookGenre
     private $books;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="date")
      */
     private $entryDate;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="date")
      */
     private $lastModyfication;
