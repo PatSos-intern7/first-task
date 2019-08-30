@@ -16,7 +16,39 @@
                         'App\\Controller\\MenuController::categoryList'
                     )) }}
                 </div>
+
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Authors
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {{ render(controller(
+                        'App\\Controller\\MenuController::authorList'
+                    )) }}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Books
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {{ render(controller(
+                        'App\\Controller\\MenuController::bookList'
+                    )) }}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Genres
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {{ render(controller(
+                        'App\\Controller\\MenuController::bookGenreList'
+                    )) }}
+                </div>
+            </li>
+
         </ul>
     </div>
 </nav>

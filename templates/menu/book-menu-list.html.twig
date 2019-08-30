@@ -1,0 +1,21 @@
+{% if authorMenu is defined %}
+    {% for item in authorMenu %}
+        <a class="dropdown-item" href="{{ path('author_show', {'id': item.id}) }}">
+            {{ item.name }}
+        </a>
+    {% endfor %}
+{% endif %}
+{% if bookMenu is defined %}
+    {% for item in bookMenu %}
+        <a class="dropdown-item" href="{{ path('book_show', {'id': item.id}) }}">
+            {{ item.title }}
+        </a>
+    {% endfor %}
+{% endif %}
+{% if bookGenreMenu is defined %}
+    {% for item in bookGenreMenu %}
+        <a class="dropdown-item" href="{{ path('book_show', {'id': item.id}) }}">
+            {{ item.name }}
+        </a>
+    {% endfor %}
+{% endif %}
