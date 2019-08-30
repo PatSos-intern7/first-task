@@ -13,6 +13,7 @@
                 <th>Description</th>
                 <th>DateOfCreation</th>
                 <th>DateOfLastModification</th>
+                <th>Wishlist</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,6 +25,12 @@
                 <td>{{ product.description }}</td>
                 <td>{{ product.dateOfCreation ? product.dateOfCreation|date('Y-m-d') : '' }}</td>
                 <td>{{ product.dateOfLastModification ? product.dateOfLastModification|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Wishlist</a>
+                </td>
+                <td>
+
+                </td>
                 <td>
                     <a class="btn btn-primary" role="button" href="{{ path('product_show', {'id': product.id}) }}">show</a>
                     <a class="btn btn-primary" role="button" href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
