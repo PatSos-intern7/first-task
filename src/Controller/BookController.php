@@ -24,6 +24,17 @@ class BookController extends AbstractController
             'books' => $bookRepository->findAll(),
         ]);
     }
+    /**
+     * @Route("/randomBook", name="random_book", methods={"GET","POST"})
+     */
+    public function randomBook(BookRepository $bookRepository)
+    {
+        $bookIndex = $bookRepository->createQueryBuilder('book');
+        $result = $bookIndex->getQuery()->getResult();
+        $randomIndex = array_rand($result);
+        $id = $result[$randomIndex]->getId();
+        return $this->redirectToRoute('book_show',['id'=>$id]);
+    }
 
     /**
      * @Route("/new", name="book_new", methods={"GET","POST"})
