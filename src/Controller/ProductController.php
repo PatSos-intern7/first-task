@@ -27,6 +27,7 @@ class ProductController extends AbstractController
         $session->start();
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
+            'sess'=>$session->all(),
         ]);
     }
 

@@ -26,7 +26,9 @@
                 <td>{{ product.dateOfCreation ? product.dateOfCreation|date('Y-m-d') : '' }}</td>
                 <td>{{ product.dateOfLastModification ? product.dateOfLastModification|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Wishlist</a>
+                    <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">
+                        {{ sess.wishlist == product.id ? 'Wishlisted':'Wishlist' }}
+                    </a>
                 </td>
                 <td>
 
