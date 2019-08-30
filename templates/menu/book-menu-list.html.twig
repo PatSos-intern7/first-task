@@ -14,7 +14,7 @@
 {% endif %}
 {% if bookGenreMenu is defined %}
     {% for item in bookGenreMenu %}
-        <a class="dropdown-item" href="{{ path('book_show', {'id': item.id}) }}">
+        <a class="dropdown-item" href="{{ path('book_genre_show', {'id': item.id}) }}">
             {{ item.name }}
         </a>
     {% endfor %}
