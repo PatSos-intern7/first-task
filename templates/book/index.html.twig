@@ -25,12 +25,12 @@
                 <td>{{ book.title }}</td>
                 <td>{{ book.description }}</td>
                 <td>{{ book.author.name }} {{ book.author.surname }}</td>
-                <td>{{ book.Publish ? book.Publish|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ book.Publish ? book.Publish}}</td>
                 <td>{{ book.country }}</td>
-                <td>{{ book.availability ? 'Yes' : 'No' }}</td>
+                <td>{{ book.availability ? 'Dostępna' : 'Niedostępna' }}</td>
                 <td>
-                    <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                    <a class="btn btn-primary" role="button" href="{{ path('book_show', {'id': book.id}) }}">show</a>
+                    <a class="btn btn-primary" role="button" href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('book_new') }}">Create new</a>
+    <a class="btn btn-primary" role="button" href="{{ path('book_new') }}">Create new</a>
 {% endblock %}
