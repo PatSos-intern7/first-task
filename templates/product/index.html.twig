@@ -26,20 +26,14 @@
                 <td>{{ product.dateOfCreation ? product.dateOfCreation|date('Y-m-d') : '' }}</td>
                 <td>{{ product.dateOfLastModification ? product.dateOfLastModification|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">
-                     {% if sess.wishlist is defined %}
-                        {{ sess.wishlist == product.id ? 'Wishlisted':'Wishlist' }}
-
-                     {% endif %}
-                    </a>
-                    {% if sess.wishlist is defined %}
-                       {% if sess.wishlist == product.id %}
-                           <a class="btn btn-primary" role="button" href="{{ path ('wishlist_remove',{'id':product.id}) }}">Wishlisted</a>
-                       {% else %}
-                           <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Wishlist</a>
-                       {% endif %}
+                    {% if wishlist.wish is defined %}
+                        {% if product.id in wishlist.wish|keys %}
+                        <a class="btn btn-primary" role="button" href="{{ path ('wishlist_remove',{'id':product.id}) }}">Remove </a>
+                            {% else %}
+                        <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Add</a>
+                        {% endif %}
                     {% else %}
-                        <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Wishlist</a>
+                        <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Add</a>
                     {% endif %}
                 </td>
                 <td>
