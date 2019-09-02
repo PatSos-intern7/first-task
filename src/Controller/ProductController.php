@@ -98,7 +98,7 @@ class ProductController extends AbstractController
             $session->remove('wish/'.$productId, $productId);
             $entityManager->remove($product);
             $entityManager->flush();
-            $this->addFlash('notice','Removied product from wishlist');
+            $this->addFlash('notice','Removed product from wishlist');
             $this->addFlash('notice','Deleted product with ID:'.$productId);
         }
 
