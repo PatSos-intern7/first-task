@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -25,4 +26,12 @@ class WishlistController extends AbstractController
         return $this->redirectToRoute('product_index');
     }
 
+    /**
+     * @Route("/remove/{id}", name="wishlist_remove")
+     */
+    public function removeFromWishlist(Product $product, Session $session)
+    {
+        $session->remove('wishlist');
+        return $this->redirectToRoute('product_index');
+    }
 }

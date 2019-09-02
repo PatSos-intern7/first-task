@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Product index</h1>
 
-    <table class="table">
+    <table class="table ">
         <thead>
             <tr>
                 <th>Id</th>
@@ -14,7 +14,7 @@
                 <th>DateOfCreation</th>
                 <th>DateOfLastModification</th>
                 <th>Wishlist</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,11 +27,20 @@
                 <td>{{ product.dateOfLastModification ? product.dateOfLastModification|date('Y-m-d') : '' }}</td>
                 <td>
                     <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">
+                     {% if sess.wishlist is defined %}
                         {{ sess.wishlist == product.id ? 'Wishlisted':'Wishlist' }}
-                    </a>
-                </td>
-                <td>
 
+                     {% endif %}
+                    </a>
+                    {% if sess.wishlist is defined %}
+                       {% if sess.wishlist == product.id %}
+                           <a class="btn btn-primary" role="button" href="{{ path ('wishlist_remove',{'id':product.id}) }}">Wishlisted</a>
+                       {% else %}
+                           <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Wishlist</a>
+                       {% endif %}
+                    {% else %}
+                        <a class="btn btn-primary" role="button" href="{{ path ('wishlist_add',{'id':product.id}) }}">Wishlist</a>
+                    {% endif %}
                 </td>
                 <td>
                     <a class="btn btn-primary" role="button" href="{{ path('product_show', {'id': product.id}) }}">show</a>
