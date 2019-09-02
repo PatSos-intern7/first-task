@@ -19,19 +19,33 @@ class WishlistController extends AbstractController
     /**
      * @Route("/add/{id}", name ="wishlist_add")
      */
-    public function addToWishlist(Product $product, Session $session)
+    public function addToWishlist(Product $product)
     {
-        $session->set('wishlist',$product->getId());
-
+        $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
+        $wishlist = $session->all();
+        $id = $product->getId();
+        if(!isset($wishlist['wish'][$id])) {
+            $session->set('wish/' . $id,$id);
+        } elseif (count($wishlist['wish'])<=4) {
+            $session->set('wish/'.$id, $id);
+            $this->addFlash('notice', 'Add to wishlist ID:' . $id);
+        } else {
+            $this->addFlash('notice', 'You can have maximum 5 products on wishlist');
+        }
         return $this->redirectToRoute('product_index');
     }
 
     /**
      * @Route("/remove/{id}", name="wishlist_remove")
      */
-    public function removeFromWishlist(Product $product, Session $session)
+    public function removeFromWishlist(Product $product)
     {
-        $session->remove('wishlist');
+        $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
+        $id = $product->getId();
+        $this->addFlash('notice','Removed product from wishlist');
+        $session->remove('wish/'.$id, $id);
+
         return $this->redirectToRoute('product_index');
     }
+
 }

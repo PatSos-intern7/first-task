@@ -25,9 +25,10 @@ class ProductController extends AbstractController
     {
         $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
         $session->start();
+        $wishlist = $session->all();
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
-            'sess'=>$session->all(),
+            'wishlist'=>$wishlist,
         ]);
     }
 
@@ -93,8 +94,11 @@ class ProductController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $productId = $product->getId();
             $entityManager = $this->getDoctrine()->getManager();
+            $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
+            $session->remove('wish/'.$productId, $productId);
             $entityManager->remove($product);
             $entityManager->flush();
+            $this->addFlash('notice','Removied product from wishlist');
             $this->addFlash('notice','Deleted product with ID:'.$productId);
         }
 
