@@ -8,6 +8,9 @@ use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,8 +23,12 @@ class ProductController extends AbstractController
      */
     public function index(ProductRepository $productRepository): Response
     {
+        $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
+        $session->start();
+        $wishlist = $session->all();
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
+            'wishlist'=>$wishlist,
         ]);
     }
 
@@ -87,11 +94,16 @@ class ProductController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $productId = $product->getId();
             $entityManager = $this->getDoctrine()->getManager();
+            $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
+            $session->remove('wish/'.$productId, $productId);
             $entityManager->remove($product);
             $entityManager->flush();
+            $this->addFlash('notice','Removed product from wishlist');
             $this->addFlash('notice','Deleted product with ID:'.$productId);
         }
 
         return $this->redirectToRoute('product_index');
     }
+
+
 }
