@@ -81,6 +81,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "egulias/email-validator": {
+        "version": "2.1.11"
+    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
@@ -128,6 +131,9 @@
         "files": [
             "config/packages/stof_doctrine_extensions.yaml"
         ]
+    },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.2.1"
     },
     "symfony/asset": {
         "version": "v4.3.3"
@@ -257,6 +263,9 @@
     "symfony/polyfill-php73": {
         "version": "v1.12.0"
     },
+    "symfony/process": {
+        "version": "v4.3.4"
+    },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
     },
@@ -289,6 +298,33 @@
     },
     "symfony/stopwatch": {
         "version": "v4.3.3"
+    },
+    "symfony/swiftmailer-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "429afc6c6778a1fdddb52a4f708cd94ff2c9960f"
+        },
+        "files": [
+            "config/packages/dev/swiftmailer.yaml",
+            "config/packages/swiftmailer.yaml",
+            "config/packages/test/swiftmailer.yaml"
+        ]
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
     },
     "symfony/translation-contracts": {
         "version": "v1.1.5"
@@ -342,6 +378,15 @@
             "config/packages/test/web_profiler.yaml",
             "config/routes/dev/web_profiler.yaml"
         ]
+    },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
     },
     "symfony/yaml": {
         "version": "v4.3.3"
