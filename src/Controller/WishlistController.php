@@ -24,10 +24,8 @@ class WishlistController extends AbstractController
         $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
         $wishlist = $session->all();
         $id = $product->getId();
-        if(!isset($wishlist['wish'])) {
+        if(!isset($wishlist['wish']) || count($wishlist['wish'])<=4) {
             $session->set('wish/' . $id,$id);
-        } elseif (count($wishlist['wish'])<=4) {
-            $session->set('wish/'.$id, $id);
             $this->addFlash('notice', 'Add to wishlist ID:' . $id);
         } else {
             $this->addFlash('notice', 'You can have maximum 5 products on wishlist');
