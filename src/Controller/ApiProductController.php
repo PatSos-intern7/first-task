@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\FOSRestBundle;
@@ -29,9 +30,9 @@ class ApiProductController extends AbstractController
 {
 
     /**
-     * @Rest\Get("/get")
+     * @Rest\Get("/")
      */
-    public function getProd(ProductRepository $productRepository): Response
+    public function getProduct(ProductRepository $productRepository): Response
     {
         $data = $productRepository->createQueryBuilder('p')
             ->select('p.id','p.name')
@@ -45,8 +46,9 @@ class ApiProductController extends AbstractController
     }
 
     /**
-     * @Rest\Get("/get/{id}")
+     * @Rest\Get("/{id}")
      * @param int $id
+     * @return JsonResponse
      */
     public function getOne(ProductRepository $productRepository, int $id): JsonResponse
     {
@@ -58,14 +60,64 @@ class ApiProductController extends AbstractController
     }
 
     /**
-     * @Route("/set", name="set", methods={"POST"})
+     * @Rest\Post("/")
+     * @return JsonResponse
      */
-    public function setProd(Request $request)
+    public function addProduct(Request $request): JsonResponse
     {
-        $requestContent = $request->getContent();
-        dump($requestContent);
-        dump($request);
-        return new Response('done',200);
+        $data = json_decode($request->getContent(),true);
+        $product = new Product();
+        $form = $this->createForm(ProductType::class, $product,['csrf_protection'=>false]);
+        $form->submit($data);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            return new JsonResponse('Sucess, product added',200);
+        }
+        return new JsonResponse('Resource not found.',404 );
+    }
+
+    /**
+     * @Rest\Put("/{id}")
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function editProduct(ProductRepository $productRepository, Request $request, int $id): JsonResponse
+    {
+        $product=$productRepository->find($id);
+        if(!$product){
+            return new JsonResponse('Resource not found.',404 );
+        }
+        $data = json_decode($request->getContent(),true);
+        $form = $this->createForm(ProductType::class,$product,['csrf_protection'=>false]);
+        $form->submit($data);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($product);
+            $entityManager->flush();
+            return new JsonResponse('Edit success', 200);
+        }
+    }
+
+    /**
+     * @Rest\Delete("/{id}")
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function deleteProduct(ProductRepository $productRepository, Request $request, int $id)
+    {
+        $product = $productRepository->find($id);
+        if(!$product){
+            return new JsonResponse('Resource not found',404);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($product);
+        $entityManager->flush();
+        return new JsonResponse('Success, product deleted',200);
     }
 
 
