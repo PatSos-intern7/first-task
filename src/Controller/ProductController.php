@@ -24,7 +24,8 @@ class ProductController extends AbstractController
     public function index(ProductRepository $productRepository): Response
     {
         $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
-        $session->start();
+        //$session->clear();
+        //$session->start();
         $wishlist = $session->all();
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
