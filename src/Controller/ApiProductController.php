@@ -32,7 +32,7 @@ class ApiProductController extends AbstractController
     /**
      * @Rest\Get("/")
      */
-    public function getProduct(ProductRepository $productRepository): Response
+    public function getProducts(ProductRepository $productRepository): Response
     {
         $data = $productRepository->createQueryBuilder('p')
             ->select('p.id','p.name')
@@ -42,7 +42,7 @@ class ApiProductController extends AbstractController
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers,$encoders);
         $jsonContent = $serializer->serialize($data,'json');
-        return new Response($jsonContent,200);
+        return new JsonResponse($jsonContent);
     }
 
     /**
@@ -56,7 +56,7 @@ class ApiProductController extends AbstractController
         if(!$product){
             return new JsonResponse('Resource not found.',404 );
         }
-        return new JsonResponse($product->jsonSerialize(),200);
+        return new JsonResponse($product->jsonSerialize());
     }
 
     /**
@@ -75,7 +75,7 @@ class ApiProductController extends AbstractController
             $entityManager->persist($product);
             $entityManager->flush();
 
-            return new JsonResponse('Sucess, product added',200);
+            return new JsonResponse('Sucess, product added');
         }
         return new JsonResponse('Resource not found.',404 );
     }
@@ -99,7 +99,7 @@ class ApiProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
             $entityManager->flush();
-            return new JsonResponse('Edit success', 200);
+            return new JsonResponse('Edit success');
         }
     }
 
@@ -108,7 +108,7 @@ class ApiProductController extends AbstractController
      * @param int $id
      * @return JsonResponse
      */
-    public function deleteProduct(ProductRepository $productRepository, Request $request, int $id)
+    public function deleteProduct(ProductRepository $productRepository, int $id)
     {
         $product = $productRepository->find($id);
         if(!$product){
@@ -117,7 +117,7 @@ class ApiProductController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($product);
         $entityManager->flush();
-        return new JsonResponse('Success, product deleted',200);
+        return new JsonResponse('Success, product deleted');
     }
 
 
