@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
-class Product
+class Product implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -109,5 +109,20 @@ class Product
         $this->category = $category;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id'=>$this->getId(),
+            'name'=>$this->getName(),
+            'description'=>$this->getDescription(),
+            'dateOfCreation'=>$this->getDateOfCreation(),
+            'dateOfLastModification'=>$this->getDateOfLastModification(),
+            'category'=>[
+                'id'=>$this->getCategory()->getId(),
+                'name'=>$this->getCategory()->getName(),
+            ]
+        ];
     }
 }
