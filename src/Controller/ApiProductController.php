@@ -38,11 +38,7 @@ class ApiProductController extends AbstractController
             ->select('p.id','p.name')
             ->getQuery()
             ->getResult();
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizers,$encoders);
-        $jsonContent = $serializer->serialize($data,'json');
-        return new JsonResponse($jsonContent);
+        return new JsonResponse($data);
     }
 
     /**
