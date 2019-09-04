@@ -4,18 +4,21 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\FOSRestBundle;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+//use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\Validator\Constraints\Json;
 
 
 /**
@@ -43,33 +46,15 @@ class ApiProductController extends AbstractController
 
     /**
      * @Rest\Get("/get/{id}")
+     * @param int $id
      */
-    public function getOne(Product $product): Response
+    public function getOne(ProductRepository $productRepository, int $id): JsonResponse
     {
-
-        //dump($product);
-        //dump($productJson);
-        //dump(json_encode($productJson));
-        //$encoder = [new JsonEncoder()];
-
-        //for obj with relations error "A circular reference has been detected when serializing the object"
-
-//        $defaultContext = [
-//            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-//
-//                if(preg_match("/ProductCategory$/",get_class($object))) {
-//                    return $object->getName();
-//                }
-//            },
-//        ];
-//        $normalizer = [new ObjectNormalizer(null, null, null, null, null, null, $defaultContext)];
-//        //$normalizer = [new ObjectNormalizer()];
-//        $serializer = new Serializer($normalizer,$encoder);
-//
-//        $jsonContent = $serializer->serialize($product,'json');
-        $jsonContent = json_encode($product->jsonSerialize());
-        return new Response($jsonContent,200);
-        //return new Response(json_encode($productJson),200);
+        $product= $productRepository->find($id);
+        if(!$product){
+            return new JsonResponse('Resource not found.',404 );
+        }
+        return new JsonResponse($product->jsonSerialize(),200);
     }
 
     /**
