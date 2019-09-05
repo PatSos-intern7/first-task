@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductCategoryRepository")
  */
-class ProductCategory
+class ProductCategory implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -133,5 +133,24 @@ class ProductCategory
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        $products = $this->getProducts()->getValues();
+        $result = [];
+        foreach ($products as $key => $product) {
+            $result[$key]['id'] = $product->getId();
+            $result[$key]['name'] = $product->getName();
+        }
+
+        return [
+            'id'=>$this->getId(),
+            'name'=>$this->getName(),
+            'description'=>$this->getDescription(),
+            'dateOfCreation'=>$this->getDateOfCreation(),
+            'dateOfModification'=>$this->getDateOfModification(),
+            'products'=>$result,
+        ];
     }
 }
