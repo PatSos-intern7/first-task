@@ -47,7 +47,7 @@ class ApiCategoryController extends AbstractController
         if(!$category){
             return new JsonResponse('Resource not found.',404 );
         }
-        //dump($category->jsonSerialize());exit;
+
         return new JsonResponse($category->jsonSerialize());
     }
 
