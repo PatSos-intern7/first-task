@@ -25,10 +25,10 @@ class ExportToCsv extends Command
     protected function configure()
     {
         $this->setDescription('Exports data to csv')
-             ->setHelp('This command allows you to export specific data to csv file')
-             ->addArgument('filename',InputArgument::REQUIRED, 'Output file name')
-             ->addArgument('class',InputArgument::REQUIRED,'class export from')
-             ->addArgument('id',)
+             ->setHelp('This command allows you to export specific data to csv file. Example app:export-csv filename class-name optional[id,...]')
+             ->addArgument('filename',InputArgument::REQUIRED, 'Name of destination file')
+             ->addArgument('class',InputArgument::REQUIRED,'Name class export from')
+             ->addArgument('ids',InputArgument::OPTIONAL,'list of items id to export separated with "," (colon)')
         ;
     }
 
@@ -37,11 +37,12 @@ class ExportToCsv extends Command
         $arg = [
             'filename'=> $input->getArgument('filename'),
             'class'=>$input->getArgument('class'),
+            'ids'=>$input->getArgument('ids')
         ];
 
         $output->writeln(['Create file : '.$arg['filename']]);
         $output->writeln(['for class  '.$arg['class']]);
-        $output->writeln(['....'.$this->exporterManager->createCsv($arg['filename'],$arg['class'])]);
+        $output->writeln(['....'.$this->exporterManager->createCsv($arg['filename'],$arg['class'],$arg['ids'])]);
         $output->writeln(['Done']);
         ;
     }
