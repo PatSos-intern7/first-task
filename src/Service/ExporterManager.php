@@ -13,7 +13,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 class ExporterManager
 {
     protected $repository;
-    protected $collection;
     protected $entityName;
     protected $em;
 
@@ -22,28 +21,44 @@ class ExporterManager
         $this->em = $entityManager;
     }
 
+    public function pickSelected(string $class, array $idList=[])
+    {
+       return $this->em->getRepository('App\Entity\\'.$class)->createQueryBuilder('q')
+            ->select('q.id','q.name')->andWhere('q.id IN(:ids)')
+            ->setParameter('ids',$idList)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getData(string $class, array $idList=[])
     {
         $data = $this->em->getRepository('App\Entity\\'.$class);
-        if(!empty($idList)){
-            return $data->findBy($idList);
+        if(!empty($idList[0])){
+            return $this->pickSelected($class, $idList);
         }
-        return $data->findAll();
+
+        return $data->createQueryBuilder('q')
+                    ->select('q.id,q.name')
+                    ->getQuery()
+                    ->getResult();
     }
 
-    public function createCsv(string $filename, $class)
+    public function createCsv(string $filename, $class, $ids)
     {
-        $data = $this->getData($class);
+
+        $ids = explode(",",$ids);
+        $data = $this->getData($class, $ids);
         $result = [];
-        foreach ($data as $key => $product) {
-            $result[$key]['id'] = $product->getId();
-            $result[$key]['name'] = $product->getName();
+
+        foreach ($data as $key => $item) {
+            $result[$key]['id'] = $item['id'];
+            $result[$key]['name'] = $item['name'];
         }
 
         $file = fopen($filename.'.csv','w');
         fputcsv($file, ['id','name']);
-        foreach ($result as $fff) {
-            fputcsv($file,$fff);
+        foreach ($result as $line) {
+            fputcsv($file,$line);
         }
         fclose($file);
     }
