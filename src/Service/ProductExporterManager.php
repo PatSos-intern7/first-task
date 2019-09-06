@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Repository\ProductRepository;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ExporterManager
+class ProductExporterManager
 {
     /**
      * @var ProductRepository
