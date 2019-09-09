@@ -106,6 +106,7 @@ class ProductCategory implements \JsonSerializable
 
     /**
      * @return Collection|Product[]
+     * @Group("group1")
      */
     public function getProducts(): Collection
     {
@@ -151,6 +152,25 @@ class ProductCategory implements \JsonSerializable
             'dateOfCreation'=>$this->getDateOfCreation(),
             'dateOfModification'=>$this->getDateOfModification(),
             'products'=>$result,
+        ];
+
+    }
+
+    public function csvSerialize()
+    {
+        $products = $this->getProducts()->getValues();
+        $result = [];
+        foreach ($products as $key => $product) {
+            $result[$key]= $product->getId();
+        }
+
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'dateOfCreation' => $this->getDateOfCreation(),
+            'dateOfModification' => $this->getDateOfModification(),
+            'products' => implode(",",$result),
         ];
     }
 }
