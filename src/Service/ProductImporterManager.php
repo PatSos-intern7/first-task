@@ -7,17 +7,9 @@ use App\Repository\ProductCategoryRepository;
 use League\Csv\Reader;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
-//use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
-use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
-use Symfony\Component\Serializer\Normalizer\DenormalizableInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
+
 
 class ProductImporterManager
 {
