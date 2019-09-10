@@ -4,6 +4,11 @@
 
 {% block body %}
     <h1>Product</h1>
+    <div class="container" >
+        <div class="col-md-2 px-1">
+            <img src="{{ asset('uploads/' ~ product.image) }}" class="img-fluid mx-auto d-block" alt="">
+        </div>
+    </div>
 
     <table class="table">
         <tbody>
