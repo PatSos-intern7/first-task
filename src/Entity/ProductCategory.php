@@ -106,7 +106,6 @@ class ProductCategory implements \JsonSerializable
 
     /**
      * @return Collection|Product[]
-     * @Group("group1")
      */
     public function getProducts(): Collection
     {
