@@ -1,18 +1,18 @@
 <?php
 
 namespace App\Command;
-use App\Service\ProductExporterManager;
+use App\Service\CategoryExporterManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExportProductsToCsv extends Command
+class ExportCategoryToCsv extends Command
 {
     private $exporterManager;
-    protected static $defaultName = 'app:product:export-csv';
+    protected static $defaultName = 'app:category:export-csv';
 
-    public function __construct(ProductExporterManager $exporterManager)
+    public function __construct(CategoryExporterManager $exporterManager)
     {
         $this->exporterManager = $exporterManager;
         parent::__construct();
