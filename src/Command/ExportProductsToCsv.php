@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExportProductsToCsv extends Command
 {
     private $exporterManager;
-    protected static $defaultName = 'app:product:export-csv';
+    protected static $defaultName = 'app:export-csv';
 
     public function __construct(ProductExporterManager $exporterManager)
     {
