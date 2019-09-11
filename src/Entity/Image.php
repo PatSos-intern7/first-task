@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
@@ -30,6 +31,11 @@ class Image
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $path;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="imageGallery")
+     */
+    private $product;
 
     public function getId(): ?int
     {
@@ -68,6 +74,18 @@ class Image
     public function setPath(?string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
