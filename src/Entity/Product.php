@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -52,6 +54,16 @@ class Product implements \JsonSerializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="product")
+     */
+    private $imageGallery;
+
+    public function __construct()
+    {
+        $this->imageGallery = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,6 +153,37 @@ class Product implements \JsonSerializable
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImageGallery(): Collection
+    {
+        return $this->imageGallery;
+    }
+
+    public function addImageGallery(Image $imageGallery): self
+    {
+        if (!$this->imageGallery->contains($imageGallery)) {
+            $this->imageGallery[] = $imageGallery;
+            $imageGallery->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageGallery(Image $imageGallery): self
+    {
+        if ($this->imageGallery->contains($imageGallery)) {
+            $this->imageGallery->removeElement($imageGallery);
+            // set the owning side to null (unless already changed)
+            if ($imageGallery->getProduct() === $this) {
+                $imageGallery->setProduct(null);
+            }
+        }
 
         return $this;
     }
