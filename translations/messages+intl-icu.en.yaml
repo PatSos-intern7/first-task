@@ -1,1 +1,6 @@
-Symfony: Słowacki wielkim poetą był
+num_of_books: >-
+  {books, plural,
+      =0    {There are no books.}
+      one   {There is one book.}
+      other {There are # books.}
+  }

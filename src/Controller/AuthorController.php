@@ -9,12 +9,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/library/author")
  */
 class AuthorController extends AbstractController
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @Route("/", name="author_index", methods={"GET"})
      */
@@ -54,8 +65,10 @@ class AuthorController extends AbstractController
      */
     public function show(Author $author): Response
     {
+        $booksLiteral = $this->translator->trans('num_of_books',['books'=>count($author->getBooks())]);
         return $this->render('author/show.html.twig', [
             'author' => $author,
+            'books'=> $booksLiteral,
         ]);
     }
 
