@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Service\LibraryLogger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BookController extends AbstractController
 {
+    /**
+     * @var LibraryLogger
+     */
+    private $libraryLogger;
+
+    public function __construct(LibraryLogger $libraryLogger)
+    {
+        $this->libraryLogger = $libraryLogger;
+    }
+
     /**
      * @Route("/", name="book_index", methods={"GET"})
      */
@@ -33,6 +44,7 @@ class BookController extends AbstractController
         $result = $bookIndex->getQuery()->getResult();
         $randomIndex = array_rand($result);
         $id = $result[$randomIndex]->getId();
+        $this->libraryLogger->makeEntry($id);
         return $this->redirectToRoute('book_show',['id'=>$id]);
     }
 
