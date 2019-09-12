@@ -52,15 +52,14 @@ class ProductController extends AbstractController
             }
             $imageGallery = $form['imageGallery']->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            if(is_array($imageGallery)) {
-                foreach($imageGallery as $singleFile) {
-                    $image = new Image();
-                    $image->setPath($fileUploader->getTargetDirectory());
-                    $image->setName($fileUploader->upload($singleFile));
-                    $product->addImageGallery($image);
-                    $entityManager->persist($image);
-                }
+            if($imageGallery) {
+                $image = new Image();
+                $image->setPath($fileUploader->getTargetDirectory());
+                $image->setName($fileUploader->upload($imageGallery));
+                $product->addImageGallery($image);
+                $entityManager->persist($image);
             }
+
             $entityManager->persist($product);
             $entityManager->flush();
             $this->addFlash('notice','created product ID: '.$product->getId());
@@ -93,11 +92,21 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            $imageFile = $form['image']->getData();
-//            if($imageFile) {
-//                $imageFileName = $fileUploader->upload($imageFile);
-//                $product->setImage($imageFileName);
-//            }
+            $imageMain = $form['Image']->getData();
+            if($imageMain) {
+                $imageFileName = $fileUploader->upload($imageMain);
+                $product->setImage($imageFileName);
+            }
+            $imageGallery = $form['imageGallery']->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            if($imageGallery) {
+                $image = new Image();
+                $image->setPath($fileUploader->getTargetDirectory());
+                $image->setName($fileUploader->upload($imageGallery));
+                $product->addImageGallery($image);
+                $entityManager->persist($image);
+            }
+            $entityManager->persist($product);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('product_index');
