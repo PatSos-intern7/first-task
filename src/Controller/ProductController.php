@@ -6,13 +6,16 @@ use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\CustomLogger;
 use App\Service\FileUploader;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\HttpKernel\Log\Logger;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,6 +23,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductController extends AbstractController
 {
+    /**
+     * @var CustomLogger
+     */
+    private $logger;
+
+    public function __construct(CustomLogger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @Route("/", name="product_index", methods={"GET"})
      */
@@ -78,6 +91,7 @@ class ProductController extends AbstractController
      */
     public function show(Product $product): Response
     {
+        $this->logger->makeEntry();
         return $this->render('product/show.html.twig', [
             'product' => $product,
         ]);
@@ -108,7 +122,7 @@ class ProductController extends AbstractController
             }
             $entityManager->persist($product);
             $this->getDoctrine()->getManager()->flush();
-
+            $this->logger->makeEntry();
             return $this->redirectToRoute('product_index');
         }
 
@@ -128,8 +142,10 @@ class ProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $session = new Session(new NativeSessionStorage(), new NamespacedAttributeBag());
             $session->remove('wish/'.$productId, $productId);
+            $this->logger->makeEntry();
             $entityManager->remove($product);
             $entityManager->flush();
+
             $this->addFlash('notice','Removed product from wishlist');
             $this->addFlash('notice','Deleted product with ID:'.$productId);
         }
