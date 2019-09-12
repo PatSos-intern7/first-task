@@ -5,13 +5,13 @@ namespace App\Form;
 use App\Entity\Product;
 use App\Entity\ProductCategory;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Image as ImageCon;
 
 class ProductType extends AbstractType
 {
@@ -25,29 +25,15 @@ class ProductType extends AbstractType
                         'choice_label'=>'name'])
             ->add('Image', FileType::class,[
                 'label'=>'Load Main image file',
-                'required' => false,
-                'mapped'=>false,
+                'required'=> false,
+                'mapped'=> false,
+                'constraints' => $this->getImageConstraints(),
                 ])
             ->add('imageGallery',FileType::class,[
-                'label' => 'Load many files ',
-                'multiple'=>true,
-                'required' => false,
-                'mapped' => false,
-
-                // make it optional so you don't have to re-upload the PDF file
-                // everytime you edit the Product details
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
-//                'constraints' => [
-//                    new Image([
-//                        'maxSize' => '1024k',
-//                        'mimeTypes' => [
-//                            'image/png',
-//                            'image/jpg',
-//                        ],
-//                        'mimeTypesMessage' => 'Please upload a valid image document',
-//                    ])
-//                ],
+                'label' => 'Add file to gallery',
+                'required'=> false,
+                'mapped'=> false,
+                'constraints' => $this->getImageConstraints(),
             ]);
     }
 
@@ -56,5 +42,21 @@ class ProductType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Product::class,
         ]);
+    }
+
+    public function getImageConstraints(): array
+    {
+        $imageConstraints = [
+            new ImageCon([
+                'maxSize' => '1024k',
+                'mimeTypes' => [
+                    'image/png',
+                    'image/jpg',
+                ],
+                'mimeTypesMessage' => 'Please upload a valid image document',
+            ])
+        ];
+
+        return $imageConstraints;
     }
 }
