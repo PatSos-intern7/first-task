@@ -15,6 +15,7 @@
         <div class="row ">
             {% for image in product.imageGallery %}
             <img style="width: 25%; height: 25%" src="{{ asset('uploads/' ~ image.name) }}" class="img-fluid mx-auto d-block" alt="">
+                {{ include('image/_delete_form.html.twig') }}
             {% else %}
                 <p>No images found</p>
             {% endfor %}
