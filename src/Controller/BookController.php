@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Service\FileUploader;
 use App\Service\LibraryLogger;
-use App\Service\LibrarySession;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,9 +23,7 @@ class BookController extends AbstractController
      * @var LibraryLogger
      */
     private $libraryLogger;
-    /**
-     * @var LibrarySession
-     */
+
     private $session;
 
     public function __construct(LibraryLogger $libraryLogger)
@@ -60,13 +58,20 @@ class BookController extends AbstractController
     /**
      * @Route("/new", name="book_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $fileUploader): Response
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form['CoverImage']->getData();
+            if($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $book->setCoverImage($imageFileName);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
@@ -94,12 +99,19 @@ class BookController extends AbstractController
     /**
      * @Route("/{id}/edit", name="book_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Book $book): Response
+    public function edit(Request $request, Book $book, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form['CoverImage']->getData();
+            if($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $book->setCoverImage($imageFileName);
+            }
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('library',$this->getFlashContent($book, 'Edited'));
 
@@ -115,12 +127,14 @@ class BookController extends AbstractController
     /**
      * @Route("/{id}", name="book_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Book $book): Response
+    public function delete(Request $request, Book $book, FileUploader $fileUploader): Response
     {
         if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
+            $fileUploader->removeFile($book->getCoverImage());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($book);
             $entityManager->flush();
+
             $this->addFlash('library',$this->getFlashContent($book, 'Deleted'));
         }
 
