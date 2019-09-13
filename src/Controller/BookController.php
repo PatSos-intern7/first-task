@@ -6,9 +6,12 @@ use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use App\Service\LibraryLogger;
+use App\Service\LibrarySession;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,10 +23,15 @@ class BookController extends AbstractController
      * @var LibraryLogger
      */
     private $libraryLogger;
+    /**
+     * @var LibrarySession
+     */
+    private $session;
 
     public function __construct(LibraryLogger $libraryLogger)
     {
         $this->libraryLogger = $libraryLogger;
+        $this->session = new Session();
     }
 
     /**
@@ -45,6 +53,7 @@ class BookController extends AbstractController
         $randomIndex = array_rand($result);
         $id = $result[$randomIndex]->getId();
         $this->libraryLogger->makeEntry($id);
+        $this->session->replace(['lastRandomBook'=>$id]);
         return $this->redirectToRoute('book_show',['id'=>$id]);
     }
 
