@@ -195,4 +195,21 @@ class Book
 
         return $this;
     }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id'=>$this->getId(),
+            'title'=>$this->getTitle(),
+            'description'=>$this->getDescription(),
+            'publish'=>$this->getPublish(),
+            'country'=>$this->getCountry(),
+            'availability'=>$this->getAvailability(),
+            'genre'=>$this->getGenre(),
+            'entryDate'=>$this->getEntryDate(),
+            'lastModification'=>$this->getLastModyfication(),
+            'author'=>$this->getAuthor(),
+            'coverImage'=>$this->getCoverImage(),
+        ];
+    }
 }
