@@ -69,7 +69,7 @@ class DataManager
         return isset($letter) && !preg_match('/^[a-zA-Z]$/',$letter);
     }
 
-    private function setFinalFileName(string $finalFileName)
+    private function setFinalFileName(string $finalFileName): void
     {
         $this->finalFileName = $finalFileName;
     }
