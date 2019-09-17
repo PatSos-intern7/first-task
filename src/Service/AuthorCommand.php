@@ -34,12 +34,12 @@ class AuthorCommand extends Command
     {
         $letter = $input->getOption('char');
         $filename = $input->getOption('save');
-        if($this->letterCheck($letter)) {
+        if($this->dataManager->letterCheck($letter)) {
             $output->writeln('Single letters only.');
         } else {
             $data = $this->dataManager->getData($letter);
             $table = new Table($output);
-            $table->setHeaders(['Id', 'Nazwisko', 'Imię', 'books']);
+            $table->setHeaders(['Id', 'Surname', 'Name', 'Books']);
             foreach ($data as $author) {
                 $table->addRow($author);
             }
@@ -47,11 +47,12 @@ class AuthorCommand extends Command
         }
         if($filename){
             $this->dataManager->createFile($filename,$letter);
+            $output->writeln('Saved data in file '.$this->dataManager->getFinalFileName().'.txt');
         }
     }
 
     public function letterCheck($letter): bool
     {
-        return isset($letter) && !preg_match("/^[a-zA-Z]{1}$/",$letter);
+        return isset($letter) && !preg_match('/^[a-zA-Z]{1}$/',$letter);
     }
 }

@@ -26,21 +26,27 @@ class DataManager
      * @var AuthorRepository
      */
     private $authorRepository;
+    /**
+     * @var string
+     */
+    private $finalFileName;
 
-    public function __construct(AuthorRepository $authorRepository, SerializerInterface $serializer, EntityManagerInterface $entityManager)
+    public function __construct(SerializerInterface $serializer, EntityManagerInterface $entityManager)
     {
-        $this->authorRepository = $authorRepository;
         $this->serializer = $serializer;
         $this->em = $entityManager;
     }
 
-    public function createFile($filename,$letter=null)
+    public function createFile($filename,$letter=null): void
     {
+        $filenameManager = new FileNameManager();
+        $finalFileName = $filenameManager->getFileName($filename);
         $data = $this->serializer->serialize($this->getData($letter), 'csv',array(CsvEncoder::DELIMITER_KEY=>' '));
         $data =  preg_replace('/^.+\n/', '', $data);//removing first line where headers are.
-        $file = fopen($filename.'.txt','w');
+        $file = fopen($finalFileName.'.txt', 'wb');
         fwrite($file,$data);
         fclose($file);
+        $this->setFinalFileName($finalFileName);
     }
 
     public function getData($letter = null)
@@ -57,4 +63,20 @@ class DataManager
 
         return $stmt->fetchAll();
     }
+
+    public function letterCheck($letter): bool
+    {
+        return isset($letter) && !preg_match('/^[a-zA-Z]$/',$letter);
+    }
+
+    private function setFinalFileName(string $finalFileName)
+    {
+        $this->finalFileName = $finalFileName;
+    }
+
+    public function getFinalFileName():string
+    {
+       return $this->finalFileName;
+    }
+
 }
