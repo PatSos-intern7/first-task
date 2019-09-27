@@ -127,4 +127,13 @@ class Product implements \JsonSerializable
             ]
         ];
     }
+
+    public function dataFromArray($data):void
+    {
+        $this->setName($data['name']);
+        $this->setDescription($data['description']);
+        $data['dateOfCreation'] === null ? : $this->setDateOfCreation(new \DateTime($data['dateOfCreation'])) ;
+        $data['dateOfLastModification'] === null ? : $this->setDateOfLastModification(new \DateTime($data['dateOfLastModification']));
+
+    }
 }
