@@ -20,8 +20,8 @@ class ImportProducts extends Command
 
     protected function configure()
     {
-        $this->setDescription('Exports data to csv')
-            ->setHelp('This command allows you to export specific data to csv file. Example app:export-csv filename optional[id,...]')
+        $this->setDescription('Import products from csv')
+            ->setHelp('This command allows you to import product data from csv file. Example app:product:import-csv filename ')
             ->addArgument('filename',InputArgument::REQUIRED, 'Name of source file')
         ;
     }
@@ -34,7 +34,7 @@ class ImportProducts extends Command
 
         $output->writeln(['Import products: '.$arg['filename']]);
         $output->writeln(['....'.$this->importerManager->importData($arg['filename'])]);
-        $output->writeln([',,,,,,'.$this->importerManager->getMsg()]);
+        $output->writeln([$this->importerManager->getMsg()]);
         $output->writeln(['Done']);
         ;
     }

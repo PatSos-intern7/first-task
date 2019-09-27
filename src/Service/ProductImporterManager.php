@@ -25,7 +25,7 @@ class ProductImporterManager
     {
         $this->productRepository = $productRepository;
         $this->em = $entityManager;
-        $this->msg = ['msq'];
+        $this->msg = [];
     }
 
     public function importData($file): void
@@ -34,24 +34,15 @@ class ProductImporterManager
         $csv->setHeaderOffset(0);
 
         foreach ($csv as $record){
-            if(!$this->productRepository->find($record['id'])) {
-                $product = new Product();
-                $product->setName($record['name']);
-                $product->setDescription($record['description']);
-                $product->setDateOfCreation(new \DateTime($record['dateOfCreation']));
-                $product->setDateOfLastModification(new \DateTime($record['dateOfLastModification']));
+            $proxyProduct = $this->productRepository->find($record['id']);
+            $categoryRepository = $this->em->getRepository(ProductCategory::class);
+            $category  = $categoryRepository->find($record['category.id']);
 
-                $categoryRepository = $this->em->getRepository(ProductCategory::class);
-                $category  = $categoryRepository->find($record['category.id']);
-                if ($category) {
-                    $product->setCategory($category);
-                    $this->em->persist($product);
-                    $this->setMsg('Ok, product '.$record['id'].' imported');
-                } else {
-                    $this->setMsg('Incorrect category with id '.$record['category.id'].'. Product with id '.$record['id'].' skipped ');
-                }
+            if(!$proxyProduct) {
+                $product = new Product();
+                $this->productSave($category, $product, $record);
             } else {
-                $this->setMsg('Product with id '.$record['id'].' exists, skip.');
+                $this->productSave($category, $proxyProduct, $record);
             }
         }
         $this->em->flush();
@@ -69,6 +60,23 @@ class ProductImporterManager
             $result .= $msg."\n";
         }
         return $result;
+    }
+
+    /**
+     * @param ProductCategory|null $category
+     * @param Product $product
+     * @param $record
+     */
+    private function productSave(?ProductCategory $category, Product $product, $record): void
+    {
+        $product->dataFromArray($record);
+        if ($category) {
+            $product->setCategory($category);
+            $this->em->persist($product);
+            $this->setMsg('Ok, product ' . $record['id'] . ' saved');
+        } else {
+            $this->setMsg('Incorrect category with id ' . $record['category.id'] . '. Product with id ' . $record['id'] . ' skipped ');
+        }
     }
 
 
