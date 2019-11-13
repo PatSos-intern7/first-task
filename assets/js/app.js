@@ -6,9 +6,16 @@
  */
 
 // any CSS you require will output into a single css file (app.css in this case)
-require('../css/app.css');
+
+import '../css/app.css';
+//global.$ = $;
+const getNiceMessage = require('./get_nice_message');
+import get_time from "./get_time";
+import $ from 'jquery';
+import 'bootstrap';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// const $ = require('jquery');
+ //const $ = require('jquery');
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+console.log(getNiceMessage(5));
+console.log(get_time());
