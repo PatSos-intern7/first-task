@@ -42,6 +42,13 @@
                     {% include 'product/_delete_form.html.twig' %}
 
                 </td>
+                <td>
+                    {% if product.image is defined %}
+                    <img style="width:auto; height: 15%" src="{{ asset('uploads/' ~ product.image) }}"  alt="">
+                    {% else %}
+                <td colspan="6">no records found</td>
+                {% endif %}
+                </td>
             </tr>
         {% else %}
             <tr>
