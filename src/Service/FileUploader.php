@@ -16,14 +16,13 @@ class FileUploader
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $fileName = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
         //$safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-        //$fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        $fileName = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+
         }
 
         return $fileName;
@@ -32,5 +31,15 @@ class FileUploader
     public function getTargetDirectory()
     {
         return $this->targetDirectory;
+    }
+
+    public function removeFile($filename)
+    {
+        $files= glob($this->targetDirectory.'/'.$filename);
+        foreach ($files as $file){
+            if(is_file($file)){
+                unlink($file);
+            }
+        }
     }
 }
