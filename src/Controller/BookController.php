@@ -75,7 +75,7 @@ class BookController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
-            $this->addFlash('library',$this->getFlashContent($book, 'Created'));
+            $this->addFlash('success',$this->getFlashContent($book, 'Created'));
 
             return $this->redirectToRoute('book_index');
         }
@@ -113,7 +113,7 @@ class BookController extends AbstractController
             }
 
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('library',$this->getFlashContent($book, 'Edited'));
+            $this->addFlash('info',$this->getFlashContent($book, 'Edited'));
 
             return $this->redirectToRoute('book_index');
         }
@@ -135,7 +135,7 @@ class BookController extends AbstractController
             $entityManager->remove($book);
             $entityManager->flush();
 
-            $this->addFlash('library',$this->getFlashContent($book, 'Deleted'));
+            $this->addFlash('warning',$this->getFlashContent($book, 'Deleted'));
         }
 
         return $this->redirectToRoute('book_index');

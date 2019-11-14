@@ -49,7 +49,7 @@ class AuthorController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($author);
             $entityManager->flush();
-            $this->addFlash('library',$this->getFlashContent($author, 'Created'));
+            $this->addFlash('success',$this->getFlashContent($author, 'Created'));
 
             return $this->redirectToRoute('author_index');
         }
@@ -82,7 +82,7 @@ class AuthorController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('library',$this->getFlashContent($author, 'Edited'));
+            $this->addFlash('info',$this->getFlashContent($author, 'Edited'));
 
             return $this->redirectToRoute('author_index');
         }
@@ -102,7 +102,7 @@ class AuthorController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($author);
             $entityManager->flush();
-            $this->addFlash('library',$this->getFlashContent($author, 'Deleted'));
+            $this->addFlash('warning',$this->getFlashContent($author, 'Deleted'));
         }
 
         return $this->redirectToRoute('author_index');
