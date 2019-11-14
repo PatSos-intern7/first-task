@@ -39,7 +39,7 @@ class BookGenreController extends AbstractController
             $bookGenre->setEditCount(0);
             $entityManager->persist($bookGenre);
             $entityManager->flush();
-            $this->addFlash('library',$this->getFlashContent($bookGenre,'Created'));
+            $this->addFlash('success',$this->getFlashContent($bookGenre,'Created'));
 
             return $this->redirectToRoute('book_genre_index');
         }
@@ -71,7 +71,8 @@ class BookGenreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $bookGenre->setEditCount($bookGenre->getEditCount()+1);
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('library',$this->getFlashContent($bookGenre,'Edited'));
+            $this->addFlash('info',$this->getFlashContent($bookGenre,'Edited'));
+            //dump($this->container->get('session'));
 
             return $this->redirectToRoute('book_genre_index');
         }
@@ -82,7 +83,6 @@ class BookGenreController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/{id}", name="book_genre_delete", methods={"DELETE"})
      */
@@ -92,7 +92,7 @@ class BookGenreController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($bookGenre);
             $entityManager->flush();
-            $this->addFlash('library',$this->getFlashContent($bookGenre,'Deleted'));
+            $this->addFlash('warning',$this->getFlashContent($bookGenre,'Deleted'));
         }
 
         return $this->redirectToRoute('book_genre_index');
